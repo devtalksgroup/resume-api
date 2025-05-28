@@ -1,2 +1,42 @@
+# Dependencies
 node_modules
+.pnpm-store
+
+# Build output
 dist
+coverage
+
+# Environment and config files
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+logs
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Git
+.git
+.gitignore
+
+# Documentation
+README.md
+*.md
+
+# Development tools
+.vscode
+.idea
+
+# Testing
+coverage
+.nyc_output
+
+# Misc
+.DS_Store
+Thumbs.db
