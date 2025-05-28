@@ -13,12 +13,13 @@ services:
     env_file:
       - .env
     environment:
-      - NODE_ENV=${NODE_ENV:-production}
-      - DB_HOST=${postgres:-postgres}
-      - DB_PORT=${POSTGRES_PORT:-5432}
-      - DB_USERNAME=${POSTGRES_USER:-postgres}
-      - DB_PASSWORD=${POSTGRES_PASSWORD:-postgres123}
-      - DB_NAME=${POSTGRES_DB:-resume_api}
+      - NODE_ENV=${NODE_ENV:-development}
+      # Override database host for Docker network
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=${DATABASE_PORT:-5432}
+      - DATABASE_USER=${DATABASE_USER:-postgres}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD:-postgres123}
+      - DATABASE_NAME=${DATABASE_NAME:-resume_api}
     depends_on:
       - postgres
     networks:
@@ -31,15 +32,16 @@ services:
     env_file:
       - .env
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-resume_api}
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres123}
+      POSTGRES_DB: ${DATABASE_NAME:-resume_api}
+      POSTGRES_USER: ${DATABASE_USER:-postgres}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-postgres123}
     ports:
-      - '${POSTGRES_PORT:-5432}:5432'
+      - '${DATABASE_PORT:-5432}:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - resume-api-network
+
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: resume-api-pgadmin
@@ -47,9 +49,9 @@ services:
     env_file:
       - .env
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@example.com}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin123}
-      PGADMIN_CONFIG_SERVER_MODE: ${PGADMIN_CONFIG_SERVER_MODE:-False}
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@example.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin123}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
     ports:
       - '${PGADMIN_PORT:-5050}:80'
     volumes:
