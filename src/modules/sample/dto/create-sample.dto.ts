@@ -1,12 +1,29 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsString, IsNotEmpty, IsOptional, IsBoolean } from 'class-validator';
 
 export class CreateSampleDto {
-  @ApiProperty({ example: 'Title Sample 1' })
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({
+    example: 'Title Sample 1',
+    description: 'The title of the sample',
+  })
   title: string;
 
-  @ApiProperty({ example: 'Name Sample 1' })
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({
+    example: 'Name Sample 1',
+    description: 'The name of the sample',
+  })
   name: string;
 
-  @ApiPropertyOptional({ example: true })
+  @IsOptional()
+  @IsBoolean()
+  @ApiPropertyOptional({
+    example: true,
+    default: true,
+    description: 'Whether the sample is active',
+  })
   isActive?: boolean;
 }

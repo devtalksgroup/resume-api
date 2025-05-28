@@ -1,12 +1,25 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
+import { IsString, IsOptional, IsBoolean } from 'class-validator';
 
 export class UpdateSampleDto {
-  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  @ApiPropertyOptional({
+    description: 'The title of the sample',
+  })
   title?: string;
 
-  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  @ApiPropertyOptional({
+    description: 'The name of the sample',
+  })
   name?: string;
 
-  @ApiPropertyOptional()
+  @IsOptional()
+  @IsBoolean()
+  @ApiPropertyOptional({
+    description: 'Whether the sample is active',
+  })
   isActive?: boolean;
 }
