@@ -1,100 +1,251 @@
-# resume-api
+# Resume API
 
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+A NestJS-based REST API for resume management built by Devtalks Group.
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Table of Contents
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- [Prerequisites](#prerequisites)
+- [Quick Start](#quick-start)
+- [Development Setup](#development-setup)
+  - [Option 1: Docker Development (Recommended)](#option-1-docker-development-recommended)
+  - [Option 2: Local Development (Non-Docker)](#option-2-local-development-non-docker)
+- [Environment Configuration](#environment-configuration)
+- [Available Scripts](#available-scripts)
+- [API Documentation](#api-documentation)
+- [Production Deployment](#production-deployment)
 
-## Description
+## Prerequisites
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### For Docker Development
 
-## Project setup
+- [Docker](https://docs.docker.com/get-docker/) (v20.10+)
+- [Docker Compose](https://docs.docker.com/compose/install/) (v2.0+)
 
-```bash
-$ pnpm install
+### For Local Development
+
+- [Node.js](https://nodejs.org/) (v22.13.1+)
+- [pnpm](https://pnpm.io/) (v10.5.0+)
+- [PostgreSQL](https://www.postgresql.org/) (v17.5+)
+
+## Quick Start
+
+1. **Clone the repository**
+
+   ```bash
+   git clone <repository-url>
+   cd resume-api
+   ```
+
+2. **Set up environment variables**
+
+   ```bash
+   cp .env.example .env
+   # Edit .env with your configuration
+   ```
+
+3. **Start with Docker (Recommended for development)**
+
+   ```bash
+   # For development (database only)
+   docker-compose -f docker-compose.local.yml up -d
+
+   # Install dependencies and start the app locally
+   pnpm install
+   pnpm run start:dev
+   ```
+
+## Development Setup
+
+### Option 1: Docker Development (Recommended)
+
+This approach runs PostgreSQL and pgAdmin in Docker while running the NestJS app locally for better development experience.
+
+1. **Start the database services**
+
+   ```bash
+   docker-compose -f docker-compose.local.yml up -d
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   pnpm install
+   ```
+
+3. **Start the development server**
+
+   ```bash
+   pnpm run start:dev
+   ```
+
+4. **Access the services**
+   - API: http://localhost:3000
+   - API Documentation: http://localhost:3000/api-docs
+   - pgAdmin: http://localhost:5050
+
+### Option 2: Local Development (Non-Docker)
+
+1. **Install PostgreSQL**
+
+   ```bash
+   # Ubuntu/Debian
+   sudo apt update
+   sudo apt install postgresql postgresql-contrib
+
+   # macOS (with Homebrew)
+   brew install postgresql@17
+   brew services start postgresql@17
+
+   # Arch Linux
+   sudo pacman -S postgresql
+   sudo systemctl enable postgresql
+   sudo systemctl start postgresql
+   ```
+
+2. **Create database and user**
+
+   ```bash
+   sudo -u postgres psql
+   ```
+
+   In PostgreSQL shell:
+
+   ```sql
+   CREATE DATABASE resume_api;
+   CREATE USER postgres WITH PASSWORD 'postgres123';
+   GRANT ALL PRIVILEGES ON DATABASE resume_api TO postgres;
+   \q
+   ```
+
+3. **Install dependencies**
+
+   ```bash
+   pnpm install
+   ```
+
+4. **Configure environment variables**
+   Create a `.env` file with local database settings:
+
+   ```env
+   # Application
+   NODE_ENV=development
+   APP_PORT=3000
+
+   # Database
+   DATABASE_HOST=localhost
+   DATABASE_PORT=5432
+   DATABASE_USER=postgres
+   DATABASE_PASSWORD=postgres123
+   DATABASE_NAME=resume_api
+   ```
+
+5. **Start the development server**
+   ```bash
+   pnpm run start:dev
+   ```
+
+## Environment Configuration
+
+Create a `.env` file in the root directory with the following variables:
+
+```env
+# Application Configuration
+NODE_ENV=development
+APP_PORT=3000
+
+# Database Configuration
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+DATABASE_USER=postgres
+DATABASE_PASSWORD=postgres123
+DATABASE_NAME=resume_api
+
+# pgAdmin Configuration (for Docker setup)
+PGADMIN_EMAIL=admin@example.com
+PGADMIN_PASSWORD=admin123
+PGADMIN_PORT=5050
 ```
 
-## Compile and run the project
+## Available Scripts
 
 ```bash
-# development
-$ pnpm run start
+# Development
+pnpm run start:dev      # Start with hot reload
+pnpm run start:debug    # Start with debug mode
 
-# watch mode
-$ pnpm run start:dev
+# Building
+pnpm run build          # Build the application
+pnpm run start:prod     # Run production build
 
-# production mode
-$ pnpm run start:prod
+# Testing
+pnpm run test           # Run unit tests
+pnpm run test:watch     # Run tests in watch mode
+pnpm run test:cov       # Run tests with coverage
+pnpm run test:e2e       # Run end-to-end tests
+
+# Code Quality
+pnpm run lint           # Run ESLint
+pnpm run format         # Format code with Prettier
 ```
 
-## Run tests
+## API Documentation
+
+Once the application is running, you can access the Swagger API documentation at:
+
+- **Local Development**: http://localhost:3000/api-docs
+- **Custom Port**: http://localhost:{APP_PORT}/api-docs
+
+The API documentation includes:
+
+- All available endpoints
+- Request/response schemas
+- Authentication requirements
+- Interactive API testing interface
+
+## Production Deployment
+
+### Full Docker Setup
+
+For production deployment, use the main docker-compose file:
 
 ```bash
-# unit tests
-$ pnpm run test
+# Build and start all services
+docker-compose up -d
 
-# e2e tests
-$ pnpm run test:e2e
+# View logs
+docker-compose logs -f app
 
-# test coverage
-$ pnpm run test:cov
+# Stop services
+docker-compose down
 ```
 
-## Deployment
+This setup includes:
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+- NestJS application container
+- PostgreSQL database
+- pgAdmin for database management
+- Proper networking and volume management
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### Environment Variables for Production
 
-```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+Ensure you set secure values for production:
+
+```env
+NODE_ENV=production
+DATABASE_PASSWORD=<secure-password>
+PGADMIN_PASSWORD=<secure-password>
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## Contributing
 
-## Resources
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature-name`
+3. Make your changes
+4. Run tests: `pnpm run test`
+5. Commit your changes: `git commit -am 'Add feature'`
+6. Push to the branch: `git push origin feature-name`
+7. Submit a pull request
 
-Check out a few resources that may come in handy when working with NestJS:
+---
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Built with ❤️ by Devtalks Group
