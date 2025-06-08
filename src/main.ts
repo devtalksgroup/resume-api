@@ -8,6 +8,8 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  console.log(env);
+
   const config = new DocumentBuilder()
     .setTitle('Devtalks Group API')
     .setDescription('Api Docs')

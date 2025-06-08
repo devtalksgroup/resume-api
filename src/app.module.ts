@@ -5,6 +5,7 @@ import { join } from 'path';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { CatModule } from './modules/cats/cat.module';
 import { SampleModule } from './modules/sample/sample.module';
 
 @Module({
@@ -13,6 +14,7 @@ import { SampleModule } from './modules/sample/sample.module';
       envFilePath: '.env',
       isGlobal: true,
     }),
+    CatModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
