@@ -15,6 +15,9 @@
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
+    "paths": {
+      "@/env": ["./src/env"]
+    },
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false
   }
