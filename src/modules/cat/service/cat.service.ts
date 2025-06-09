@@ -2,9 +2,9 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
+import { CreateCatInputType } from '../dto/create-cat.input';
+import { UpdateCatInputType } from '../dto/update-cat.input';
 import { Cat } from '../entities/cat.entity';
-import { CreateCatInputType } from '../inputs/create-cat.input';
-import { UpdateCatInputType } from '../inputs/update-cat.input';
 
 @Injectable()
 export class CatService {

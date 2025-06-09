@@ -19,9 +19,9 @@ import {
 } from '@nestjs/swagger';
 import { ZodSerializerDto } from 'nestjs-zod';
 
-import { CreateCatInput } from '../inputs/create-cat.input';
-import { UpdateCatInput } from '../inputs/update-cat.input';
-import { CatOutput } from '../outputs/cat.output';
+import { CatOutput } from '../dto/cat.output';
+import { CreateCatInput } from '../dto/create-cat.input';
+import { UpdateCatInput } from '../dto/update-cat.input';
 import { CatService } from '../service/cat.service';
 
 @ApiTags('Cat')

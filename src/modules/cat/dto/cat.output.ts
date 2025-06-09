@@ -2,10 +2,10 @@ import { z } from 'zod';
 
 import { createZodDto } from '@/common/utils';
 
-import { CreateCatSchema } from '../inputs/create-cat.input';
-
-export const CatOutputSchema = CreateCatSchema.extend({
+export const CatOutputSchema = z.object({
   id: z.number(),
+  name: z.string(),
+  age: z.number().nullable(),
 });
 
 export type CatOutputType = z.infer<typeof CatOutputSchema>;
