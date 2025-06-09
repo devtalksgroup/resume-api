@@ -1,11 +1,14 @@
 import { Module } from '@nestjs/common';
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { ZodSerializerInterceptor, ZodValidationPipe } from 'nestjs-zod';
 
 import { CatController } from './controller/cat.controller';
+import { Cat } from './entities/cat.entity';
 import { CatService } from './service/cat.service';
 
 @Module({
+  imports: [TypeOrmModule.forFeature([Cat])],
   controllers: [CatController],
   providers: [
     CatService,

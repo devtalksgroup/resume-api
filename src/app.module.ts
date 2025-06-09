@@ -5,7 +5,7 @@ import { join } from 'path';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { CatModule } from './modules/cats/cat.module';
+import { CatModule } from './modules/cat/cat.module';
 import { SampleModule } from './modules/sample/sample.module';
 
 @Module({
